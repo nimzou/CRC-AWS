@@ -51,7 +51,7 @@ const Spotlight: React.FC = () => {
         {/* Glass card */}
         <div className="relative group">
           {/* Animated border gradient */}
-          <div className="absolute -inset-0.5 bg-gradient-to-b from-black to-blue-700 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-b from-black to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
           {/* Glass card content */}
           <div className="relative px-7 py-6 md:px-10 md:py-8 bg-black/50 backdrop-blur-xl rounded-lg border border-white/10">
             <div className="text-center z-10 max-w-[90vw] md:max-w-[600px] select-none">
