@@ -1,13 +1,38 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { getViews } from "../api/getViews";
 
 const Spotlight: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [viewCount, setViewCount] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch view count
+  useEffect(() => {
+    const fetchViews = async () => {
+      try {
+        const views = await getViews();
+        setViewCount(views);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch views:', err);
+        setError('Failed to load view count');
+        setViewCount(null);
+      }
+    };
+
+    fetchViews();
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || typeof window === 'undefined') return;
+
+    const updateSpotlight = (x: number, y: number) => {
+      container.style.setProperty("--mouse-x", `${x}%`);
+      container.style.setProperty("--mouse-y", `${y}%`);
+    };
 
     const handleInteraction = (e: MouseEvent | TouchEvent) => {
       const { left, top, width, height } = container.getBoundingClientRect();
@@ -23,14 +48,14 @@ const Spotlight: React.FC = () => {
         y = ((touch.clientY - top) / height) * 100;
       }
 
-      container.style.setProperty("--mouse-x", `${x}%`);
-      container.style.setProperty("--mouse-y", `${y}%`);
+      updateSpotlight(x, y);
     };
 
+    // Set initial position
+    updateSpotlight(50, 50);
+
     container.addEventListener("mousemove", handleInteraction);
-    container.addEventListener("touchmove", handleInteraction, {
-      passive: false,
-    });
+    container.addEventListener("touchmove", handleInteraction, { passive: false });
 
     return () => {
       container.removeEventListener("mousemove", handleInteraction);
@@ -42,24 +67,34 @@ const Spotlight: React.FC = () => {
     <div
       ref={containerRef}
       className="relative min-h-screen w-full bg-black overflow-hidden"
+      style={{
+        '--mouse-x': '50%',
+        '--mouse-y': '50%',
+      } as React.CSSProperties}
     >
-      {/* Spotlight effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.15)_0%,transparent_50%)] md:bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.15)_0%,transparent_25%)] transition-transform duration-100"></div>
+      <div 
+        className="absolute inset-0 transition-opacity duration-300"
+        style={{
+          background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%)',
+        }}
+      />
 
-      {/* Content container */}
       <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8">
-        {/* Glass card */}
         <div className="relative group">
-          {/* Animated border gradient */}
-          <div className="absolute -inset-0.5 bg-gradient-to-b from-black to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-          {/* Glass card content */}
+          <div className="absolute -inset-0.5 bg-gradient-to-b from-black to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000" />
           <div className="relative px-7 py-6 md:px-10 md:py-8 bg-black/50 backdrop-blur-xl rounded-lg border border-white/10">
             <div className="text-center z-10 max-w-[90vw] md:max-w-[600px] select-none">
               <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
                 Total Views
               </h2>
               <p className="text-white text-5xl md:text-6xl lg:text-7xl font-bold">
-                1,234
+                {error ? (
+                  <span className="text-red-500 text-3xl">{error}</span>
+                ) : viewCount === null ? (
+                  <span className="text-gray-500">Loading...</span>
+                ) : (
+                  viewCount.toLocaleString()
+                )}
               </p>
             </div>
           </div>
