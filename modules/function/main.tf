@@ -68,3 +68,33 @@ resource "aws_iam_role_policy" "dynamodb_access" {
     }]
   })
 }
+
+# Lambda Function
+
+data "archive_file" "lambda_function" {
+  type = "zip"
+  source_file = "${path.module}/function.py"
+  output_path = "${path.module}/lambda_function.zip"
+}
+
+resource "aws_lambda_function" "count_function" {
+  function_name = "count_function"
+  filename = "${path.module}/lambda_function.zip"
+  role = aws_iam_role.AllowDynamoDbAccess.arn
+  runtime = "python3.12"
+  handler = "function.handler"
+  architectures = ["x86_64"]
+}
+
+resource "aws_lambda_function_url" "count_function" {
+  function_name = aws_lambda_function.count_function.function_name
+  authorization_type = "NONE"
+  cors {
+    allow_credentials = true
+    allow_origins = ["*"]
+    allow_methods = ["GET"]
+    allow_headers = ["Content-Type"]
+    expose_headers = ["Content-Type"]
+    max_age = 0
+  }
+}
