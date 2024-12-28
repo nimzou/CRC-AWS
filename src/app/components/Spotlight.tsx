@@ -87,11 +87,11 @@ const Spotlight: React.FC = () => {
               <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
                 Total Views
               </h2>
-              <p className="text-white text-5xl md:text-6xl lg:text-7xl font-bold">
+              <p className="text-white text-4xl md:text-5xl lg:text-6xl font-bold">
                 {error ? (
-                  <span className="text-red-500 text-3xl">{error}</span>
+                  <span className="text-red-500 text-2xl">{error}</span>
                 ) : viewCount === null ? (
-                  <span className="text-gray-500">Loading...</span>
+                  <span className="text-gray-500">....</span>
                 ) : (
                   viewCount.toLocaleString()
                 )}
