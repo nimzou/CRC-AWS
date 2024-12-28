@@ -41,4 +41,12 @@ yarn-error.log*
 next-env.d.ts
 
 # terraform
+/.terraform
 terraform.tfvars
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+
+# aws
+/aws
+awscliv2.zip
