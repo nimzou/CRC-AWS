@@ -9,3 +9,8 @@ module "website" {
     cloudflare_api_token = var.cloudflare_api_token
     cloudflare_zone_id   = var.cloudflare_zone_id
 }
+
+module "function" {
+    source              = "./modules/function"
+    aws_region          = var.aws_region
+}
