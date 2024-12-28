@@ -50,3 +50,6 @@ terraform.tfstate.backup
 # aws
 /aws
 awscliv2.zip
+
+# modules
+/modules/function/lambda_function.zip
