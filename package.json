@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && touch out/.nojekyll && cp -r .next/static out/_next/static",
+    "build": "next build && cp -r .next/static out/_next/static",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next out",
