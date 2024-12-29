@@ -98,3 +98,58 @@ resource "aws_lambda_function_url" "count_function" {
     max_age = 0
   }
 }
+
+# REST API Gateway
+
+resource "aws_api_gateway_rest_api" "lambda-api" {
+  name = "lambda-api"
+  endpoint_configuration {
+    types = [ "EDGE" ]
+  }
+}
+
+resource "aws_api_gateway_resource" "trigger" {
+  rest_api_id = aws_api_gateway_rest_api.lambda-api.id
+  parent_id = aws_api_gateway_rest_api.lambda-api.root_resource_id
+  path_part = "visit-count-api"
+}
+
+resource "aws_api_gateway_method" "trigger" {
+  rest_api_id = aws_api_gateway_rest_api.lambda-api.id
+  resource_id = aws_api_gateway_resource.trigger.id
+  http_method = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "lambda" {
+  rest_api_id = aws_api_gateway_rest_api.lambda-api.id
+  resource_id = aws_api_gateway_resource.trigger.id
+  http_method = aws_api_gateway_method.trigger.http_method
+  integration_http_method = "POST"
+  type = "AWS_PROXY"
+  uri = aws_lambda_function.count_function.invoke_arn
+}
+
+resource "aws_lambda_permission" "apigw" {
+  statement_id = "AllowAPIGatewayInvoke"
+  action = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.count_function.function_name
+  principal = "apigateway.amazonaws.com"
+  source_arn = "${aws_api_gateway_rest_api.lambda-api.execution_arn}/*/*"
+}
+
+resource "aws_api_gateway_deployment" "lambda" {
+  rest_api_id = aws_api_gateway_rest_api.lambda-api.id
+  depends_on = [
+    aws_api_gateway_integration.lambda
+  ]
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "prod" {
+  deployment_id = aws_api_gateway_deployment.lambda.id
+  rest_api_id = aws_api_gateway_rest_api.lambda-api.id
+  stage_name = "prod"
+}
