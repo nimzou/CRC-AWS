@@ -14,3 +14,8 @@ module "function" {
     source              = "./modules/function"
     aws_region          = var.aws_region
 }
+
+output "api_gateway_invoke_url" {
+    value = module.function.api_gateway_invoke_url
+    description = "API Gateway stage invoke URL"
+}

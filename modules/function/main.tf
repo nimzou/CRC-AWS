@@ -153,3 +153,8 @@ resource "aws_api_gateway_stage" "prod" {
   rest_api_id = aws_api_gateway_rest_api.lambda-api.id
   stage_name = "prod"
 }
+
+output "api_gateway_invoke_url" {
+  description = "API Gateway stage invoke URL"
+  value = "${aws_api_gateway_stage.prod.invoke_url}/${aws_api_gateway_resource.trigger.path_part}"
+}
