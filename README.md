@@ -2,3 +2,5 @@
 
 This repository contains the code for the [Cloud Resume Challenge](https://cloudresumechallenge.dev/docs/the-challenge/aws/) project using AWS.
 
+![Architecture](./assets/architecture.png)
+
