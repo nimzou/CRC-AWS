@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Visit Counter",
-  description: "cloud challenge application",
+  description: "cloud resume challenge",
 };
 
 export default function RootLayout({
