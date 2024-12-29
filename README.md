@@ -10,8 +10,7 @@ This repository contains the code for the [Cloud Resume Challenge](https://cloud
 
 ```bash
 git clone https://github.com/nyaio/cloud-resume-project.git
-cd cloud-project
-
+cd cloud-resume-project
 ```
 
 3. Copy the example terraform var file `example_terraform.tfvars` to `terraform.tfvars`.
