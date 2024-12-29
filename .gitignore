@@ -53,3 +53,9 @@ awscliv2.zip
 
 # modules
 /modules/function/lambda_function.zip
+
+# tailwind
+tailwind.config.js
+
+# postcss
+postcss.config.js
