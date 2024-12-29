@@ -1,4 +1,4 @@
-const API_URL = 'https://urqedn91sg.execute-api.ap-south-1.amazonaws.com/prod/visit-counter-api';
+const API_URL = '<API Gateway Invoke URL>';
 
 export async function getViews(): Promise<number> {
   try {
