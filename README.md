@@ -9,7 +9,7 @@ This repository contains the code for the [Cloud Resume Challenge](https://cloud
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/nyaio/cloud-resume-project.git
+git clone https://github.com/nimzou/cloud-resume-project.git
 cd cloud-resume-project
 ```
 
