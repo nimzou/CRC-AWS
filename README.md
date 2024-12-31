@@ -13,14 +13,14 @@ git clone https://github.com/nuanv/cloud-resume-project.git
 cd cloud-resume-project
 ```
 
-3. Copy the example terraform var file `example_terraform.tfvars` to `terraform.tfvars`.
+2. Copy the example terraform var file `example_terraform.tfvars` to `terraform.tfvars`.
 
 ```bash
 cp example_terraform.tfvars terraform.tfvars
 ```
 
 > [!NOTE]
-> Install Terraform and aws-cli before proceeding further. </br>
+> Install [terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) and [aws-cli](https://aws.amazon.com/cli/) before proceeding further. </br>
 > Run `aws configure` and provide required credentials for the user account. </br>
 > Change the variables in `terraform.tfvars` according to your preference.
 
@@ -29,10 +29,11 @@ cp example_terraform.tfvars terraform.tfvars
 ```bash
 terraform init
 ```
-4. First we will run our `function module` which will setup the API gateway, Lambda function and DynamoDB.
 
 > [!WARNING]
 > While the terraform deployment allows you to choose region of your choice, make sure you change the region in `modules/function/function.ts` to the region of your choice.
+
+4. Now we will run our `function module` which will setup the API gateway, Lambda function and DynamoDB.
 
 ```bash
 terraform apply -target=module.function
