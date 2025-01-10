@@ -63,6 +63,6 @@ terraform apply -target=module.website
 terraform destroy
 ```
 
-## Visit your domain & Reload page to update view count
+## Visit your domain to update view count
 ![Count](./assets/counter.gif)
 
